@@ -1,0 +1,188 @@
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+EN VRAC
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+Pas besoin de querySelector ou autre JS
+
+gsap.to(h1)
+gsap.to('.title')
+
+Possibilité de multiple selections
+- via querySelector
+- via gsap.to('.container-images img')
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+MÉTHODE T0
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+Aller vers...
+De la position initiale, jusqu' à...
+
+gsap.to(selection, {propriété, duration, scale})
+
+PS : De base, sans indications, durée = 0.5s
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+MÉTHODE FROM
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+Venir depuis...
+De cette position, jusqu'à la position initiale
+
+PS : peut être bugger lors d'un multiple click event
+Résoudre ce problème avec la méthode fromTo()
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+MÉTHODE FROM TO
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+Depuis ... jusqu'à ...
+
+gsap.fromTo(img1, {opacity:0}, {opacity:1, duration:3})
+
+PS :
+- la duration se met dans le deuxième objet
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+DELAY - REPEAT -  REPEAT DELAY - DURATION
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+delay = le temps avant l'animation
+
+repeat = le nombre supplémentaire
+repeatDelay = le temps entre chaque repeat
+
+duration = la durée de l'animation
+
+PS : voir la doc de GreenSock
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+EASING
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+https://greensock.com/docs/v3/Eases
+Possibilité de rajouter des .in / .out
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+STAGGER
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+Une sorte de Delay / Décalage entre des éléments
+
+Soit un décalage entre chaque element, de base, 
+ou avec each
+    stagger: 0.1,
+
+
+Soit avec le temps total partagé entre tous les éléments
+    stagger : {amount: 2}
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+RANDOM
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+Determine l'amplitude min et max de Random
+    x: "random(-100,300)"
+
+Permet d'arrondir, par exemple ici à la dizaine
+    x: "random(-100,300, 10)"
+
+Permet de choisir aléatoirement des valeurs de tableau
+  x: "random([700,-100,300, 10, 20, 82])",
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+KEYFRAMES
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+gsap.to(".btn", {
+  keyframes: [
+    { duration: 0.4, y: 100 },
+    { duration: 0.4, scale: 1.3 },
+    { duration: 0.4, y: 300 },
+    { duration: 0.4, y: 0 },
+  ],
+})
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+FONCTIONS CALLBACK
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+Parfait pour pouvoir se situer et debugger :
+    onStart: () => console.log("Start"),
+    onComplete: () => console.log("Complete"),
+    onUpdate: () => console.log("Update"),
+    onRepeat: () => console.log("Repeat"),
+
+Possibilité d'y mettre des fonctions diverses :
+    onComplete: complete,
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+ENREGISTRER DES TWEENS
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+Permet de réutiliser nos animations
+
+gsap.registerEffect({
+  name: "rotationScale",
+  effect: (targets, config) => {
+    return gsap.to(targets, {
+      duration: config.duration,
+      scale: 2,
+      rotation: 360,
+    });
+  },
+  defaults: { duration: 2 },
+});
+
+// appel
+gsap.effects.rotationScale(".txt", { duration: 3 });
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+LA METHODE SET()
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+Méthode utilitaire qui permet de passer du css
+Évite un querySelector, et de rentrer dans le style, etc
+
+gsap.set(".txt", { opacity: 0 });
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+YOYO
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+Permet de faire un "retour"
+Necessite un repeat
+
+  yoyo: true,
+  repeat: 1,
+
+
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+LES METHODES DES TWEENS
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+https://greensock.com/docs/v3/GSAP/Tween
+
+
+anim.yoyo(3);
+anim.delay(1);
+anim.pause();
+anim.resume();
+anim.kill(); //permet de supprimer un Tween
+anim.seek(1.9); // permet de démarrer plus loin
+
+setTimeout(() => {
+  anim.restart();
+}, 6000);
